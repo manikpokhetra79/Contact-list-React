@@ -1,13 +1,23 @@
 import React from 'react';
-
-const Contact = ({ user }) => {
-  return (
-    <div className="">
-      <div>
-        <h2>{user.name}</h2>
-        <p>{user.email}</p>
-      </div>
-    </div>
-  );
-};
+import { Button } from 'react-bootstrap';
+class Contact extends React.Component {
+  render() {
+    const user = this.props.user;
+    return (
+      <tbody>
+        <tr>
+          <td>{user.id}</td>
+          <td>{user.name}</td>
+          <td>{user.email}</td>
+          <td>{user.phone}</td>
+          <td>{user.address.street + ', ' + user.address.city}</td>
+          <td>
+            <Button variant="success">Edit</Button>{' '}
+            <Button variant="danger">Delete</Button>
+          </td>
+        </tr>
+      </tbody>
+    );
+  }
+}
 export default Contact;

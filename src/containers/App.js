@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import ContactList from '../components/ContactList';
+import ContactForm from '../components/ContactForm';
+import { userApi } from '../helpers/Urls';
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -9,7 +11,7 @@ class App extends React.Component {
     };
   }
   componentDidMount() {
-    fetch('https://jsonplaceholder.typicode.com/users')
+    fetch(userApi)
       .then((res) => res.json())
       .then((users) => {
         console.log(users);
@@ -22,6 +24,7 @@ class App extends React.Component {
     const { users } = this.state;
     return (
       <div>
+        <h1>Contact Manager</h1> <ContactForm />
         <ContactList users={users} />
       </div>
     );
