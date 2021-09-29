@@ -4,14 +4,14 @@ import { Table } from 'react-bootstrap';
 const ContactList = ({ users }) => {
   return (
     <>
-      <Table striped bordered hover variant="dark">
+      <Table striped bordered responsive hover variant="dark">
         <thead>
           <tr>
             <th>#</th>
             <th>Full Name</th>
             <th>Email</th>
             <th>Phone Number</th>
-            <th>Address</th>
+            <th>City</th>
             <th>Action</th>
           </tr>
         </thead>

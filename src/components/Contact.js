@@ -10,7 +10,7 @@ class Contact extends React.Component {
           <td>{user.name}</td>
           <td>{user.email}</td>
           <td>{user.phone}</td>
-          <td>{user.address.street + ', ' + user.address.city}</td>
+          <td>{user.address.city}</td>
           <td>
             <Button variant="success">Edit</Button>{' '}
             <Button variant="danger">Delete</Button>

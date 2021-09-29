@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import ContactList from '../components/ContactList';
 import ContactForm from '../components/ContactForm';
 import { userApi } from '../helpers/Urls';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import { Navbar, Container, Nav } from 'react-bootstrap';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
+import Header from '../components/Header';
 class App extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       users: [],
     };
@@ -22,42 +22,21 @@ class App extends React.Component {
         });
       });
   }
+  handleformSubmit = (user) => {
+    const { users } = this.state;
+    // correct the id of user
+    let id = users.length;
+    user.id = id + 1;
+    users.push(user);
+    console.log(this.state.users);
+  };
   render() {
     const { users } = this.state;
     return (
       <Router>
-        {' '}
         <div>
-          <Navbar bg="dark" variant="dark">
-            <Container>
-              <Navbar.Brand>
-                <Link to="/" className="text-light text-decoration-none">
-                  Contact Manager
-                </Link>
-              </Navbar.Brand>
-              <Navbar.Toggle aria-controls="basic-navbar-nav" />
-              <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="me-auto">
-                  <Nav.Link>
-                    <Link
-                      to="/contacts"
-                      className="text-light text-decoration-none"
-                    >
-                      Contact List
-                    </Link>
-                  </Nav.Link>
-                  <Nav.Link>
-                    <Link
-                      to="/add-contacts"
-                      className="text-light text-decoration-none"
-                    >
-                      New Contact
-                    </Link>
-                  </Nav.Link>
-                </Nav>
-              </Navbar.Collapse>
-            </Container>
-          </Navbar>
+          {' '}
+          <Header />
           <Switch>
             <Route exact path="/">
               <h1>Hi, this is a contact manager app</h1>
@@ -66,8 +45,10 @@ class App extends React.Component {
               <ContactList users={users} />
             </Route>
             <Route path="/add-contacts">
-              <h1>Contact Manager</h1>
-              <ContactForm />
+              <Container className="text-info">
+                <h1>Contact Manager</h1>
+              </Container>
+              <ContactForm formSubmit={this.handleformSubmit} />
             </Route>
           </Switch>
         </div>
