@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Button, Row, CardGroup } from 'react-bootstrap';
+import { Container, Button, Row, CardGroup, Col } from 'react-bootstrap';
 
 import Contact from './Contact';
 import ContactForm from './ContactForm';
@@ -55,21 +55,18 @@ class ContactList extends React.Component {
   };
 
   //handle update contact
-  handleUpdateContact = (user, userId) => {
-    let index = userId - 1;
-    //update id of user for displaying correct records
-    user.id = userId;
+  handleUpdateContact = (user) => {
     const { users } = this.state;
-    users[index] = user;
-    //update users array
-    this.setState({
-      users,
-    });
+    const updatedArray = [...users];
+    // this.setState({
+    //   users: [...users],
+    // });
   };
+
   // handle delete contact
-  handleDeleteContact = (user) => {
+  handleDeleteContact = (userId) => {
     const { users } = this.state;
-    const filteredItems = users.filter((item) => item !== user);
+    const filteredItems = users.filter((item) => item.id !== userId);
     //update users array
     this.setState({
       users: filteredItems,
@@ -77,6 +74,7 @@ class ContactList extends React.Component {
   };
   render() {
     const { users, showAddform } = this.state;
+    console.log(users);
     return (
       <>
         <Container>
@@ -99,16 +97,18 @@ class ContactList extends React.Component {
             ) : null}
           </Row>
 
-          <Row xs={1} md={3} className="g-3">
-            {users.map((user, index) => (
-              <CardGroup>
-                <Contact
-                  user={user}
-                  key={index}
-                  deleteContact={this.handleDeleteContact}
-                  editContact={this.handleUpdateContact}
-                />
-              </CardGroup>
+          <Row xs={1} md={1} lg={2} className="g-3 m-auto">
+            {users.map((user) => (
+              <Col>
+                <CardGroup>
+                  <Contact
+                    key={user}
+                    user={user}
+                    deleteContact={this.handleDeleteContact}
+                    editContact={this.handleUpdateContact}
+                  />
+                </CardGroup>
+              </Col>
             ))}
           </Row>
         </Container>

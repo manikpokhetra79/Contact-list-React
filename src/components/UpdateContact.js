@@ -41,10 +41,10 @@ class UpdateContact extends Component {
   onFormSubmit = (e) => {
     e.preventDefault();
     const userId = this.props.user.id;
-
+    let url = `https://jsonplaceholder.typicode.com/users/${userId}`;
     const { name, email, phone, address } = this.state;
     if (name && email && phone && address.city) {
-      fetch('https://jsonplaceholder.typicode.com/posts/1', {
+      fetch(url, {
         method: 'PUT',
         body: JSON.stringify({
           name,
@@ -60,7 +60,8 @@ class UpdateContact extends Component {
         .then((user) => {
           console.log(user);
           // call update contact function
-          this.props.editContact(user, userId);
+          this.props.updateContact(user);
+          this.props.hideForm();
         });
     } else {
       this.toggleAlert(true);
@@ -69,10 +70,13 @@ class UpdateContact extends Component {
   render() {
     const { email, name, phone, address } = this.props.user;
     const { showAlert } = this.state;
+    // console.log(this.props);
     return (
       <Container className="m-3">
-        <h2 className="text-center text-success">Update contact Details</h2>{' '}
-        <Form className="border border-secondary p-4 border-5 rounded">
+        <Form
+          className="border border-secondary p-4 border-3 rounded"
+          style={{ width: '22rem' }}
+        >
           <Row>
             {showAlert && (
               <Alert variant="info">
@@ -88,7 +92,7 @@ class UpdateContact extends Component {
           >
             Close Form
           </Button>
-          <Row className="mb-3">
+          <Row>
             {' '}
             <Form.Group as={Col} controlId="formGridName">
               <Form.Label>Full Name</Form.Label>
@@ -98,6 +102,8 @@ class UpdateContact extends Component {
                 onChange={(e) => this.handleInputChange('name', e.target.value)}
               />
             </Form.Group>
+          </Row>
+          <Row>
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label>Email</Form.Label>
               <Form.Control
