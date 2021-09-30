@@ -36,7 +36,7 @@ class ContactForm extends Component {
   onFormSubmit = (e) => {
     e.preventDefault();
     const { name, email, phone, address } = this.state;
-    if (name && email && phone && address) {
+    if (name && email && phone && address.city) {
       fetch('https://jsonplaceholder.typicode.com/users', {
         method: 'POST',
         body: JSON.stringify({
@@ -67,9 +67,7 @@ class ContactForm extends Component {
         <Form className="border border-secondary p-4 border-5 rounded">
           <Row>
             {showAlert && (
-              <Alert variant="danger">
-                <Alert.Heading>Please fill in all the details</Alert.Heading>
-              </Alert>
+              <Alert variant="danger">Please fill in all the details...</Alert>
             )}
           </Row>
           {/* email username  phone */}

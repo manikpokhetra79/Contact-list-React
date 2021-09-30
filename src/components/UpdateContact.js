@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Button, Row, Col, Container } from 'react-bootstrap';
+import { Form, Button, Row, Col, Container, Alert } from 'react-bootstrap';
 class UpdateContact extends Component {
   constructor(props) {
     super(props);
@@ -11,8 +11,19 @@ class UpdateContact extends Component {
       address: {
         city: '',
       },
+      showAlert: false,
     };
   }
+  toggleAlert = (val) => {
+    this.setState({
+      showAlert: val,
+    });
+    setTimeout(() => {
+      this.setState({
+        showAlert: !val,
+      });
+    }, 6000);
+  };
   handleInputChange = (field, value) => {
     this.setState({
       [field]: value,
@@ -29,35 +40,46 @@ class UpdateContact extends Component {
   };
   onFormSubmit = (e) => {
     e.preventDefault();
-    const { name, email, phone, address } = this.state;
+    const userId = this.props.user.id;
 
-    fetch('https://jsonplaceholder.typicode.com/posts/1', {
-      method: 'PUT',
-      body: JSON.stringify({
-        name,
-        email,
-        phone,
-        address,
-      }),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then((user) => {
-        console.log(user);
-        // call update contact function
-        this.props.UpdateContact(user);
-      });
+    const { name, email, phone, address } = this.state;
+    if (name && email && phone && address.city) {
+      fetch('https://jsonplaceholder.typicode.com/posts/1', {
+        method: 'PUT',
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          address,
+        }),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      })
+        .then((response) => response.json())
+        .then((user) => {
+          console.log(user);
+          // call update contact function
+          this.props.editContact(user, userId);
+        });
+    } else {
+      this.toggleAlert(true);
+    }
   };
   render() {
-    console.log(this.state);
     const { email, name, phone, address } = this.props.user;
-    console.log(this.props);
+    const { showAlert } = this.state;
     return (
       <Container className="m-3">
         <h2 className="text-center text-success">Update contact Details</h2>{' '}
         <Form className="border border-secondary p-4 border-5 rounded">
+          <Row>
+            {showAlert && (
+              <Alert variant="info">
+                Please fill in new or existing records...
+              </Alert>
+            )}
+          </Row>
           {/* email username  phone */}
           <Button
             variant="danger"

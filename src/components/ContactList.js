@@ -1,19 +1,18 @@
 import React from 'react';
-import { Container, Table, Button, Row } from 'react-bootstrap';
+import { Container, Button, Row, CardGroup } from 'react-bootstrap';
 
 import Contact from './Contact';
-import UpdateContact from './UpdateContact';
 import ContactForm from './ContactForm';
 import { userApi } from '../helpers/Urls';
 import Header from './Header';
+
 class ContactList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       users: [],
-      showUpdateForm: false,
       showAddform: false,
-      editContactId: -1,
+      lastId: 10,
     };
   }
   componentDidMount() {
@@ -21,6 +20,7 @@ class ContactList extends React.Component {
       .then((res) => res.json())
       .then((users) => {
         console.log(users);
+
         this.setState({
           users: users,
         });
@@ -33,28 +33,19 @@ class ContactList extends React.Component {
       showAddform: val,
     });
   };
-  // show/hide update form
-  handleShowUpdateForm = (val, userId) => {
-    this.setState({
-      showUpdateForm: val,
-      editContactId: userId,
-    });
-  };
-  hideUpdateForm = () => {
-    this.setState({
-      showUpdateForm: false,
-    });
-  };
+
+  // handle adding new contact
   handleformSubmit = (user) => {
     const { users } = this.state;
     // correct the id of user
-    let id = users.length;
-    user.id = id + 1;
+
+    user.id = this.state.lastId + 1;
     users.push(user);
     console.log(this.state.users);
     //close the form after clicking add contact button
     this.setState({
       showAddform: false,
+      lastId: user.id,
     });
     // scroll to the bottom
     window.scrollTo({
@@ -62,9 +53,30 @@ class ContactList extends React.Component {
       behavior: 'auto',
     });
   };
+
+  //handle update contact
+  handleUpdateContact = (user, userId) => {
+    let index = userId - 1;
+    //update id of user for displaying correct records
+    user.id = userId;
+    const { users } = this.state;
+    users[index] = user;
+    //update users array
+    this.setState({
+      users,
+    });
+  };
+  // handle delete contact
+  handleDeleteContact = (user) => {
+    const { users } = this.state;
+    const filteredItems = users.filter((item) => item !== user);
+    //update users array
+    this.setState({
+      users: filteredItems,
+    });
+  };
   render() {
-    const { showUpdateForm, editContactId, users, showAddform } = this.state;
-    const { updateContact } = this.props;
+    const { users, showAddform } = this.state;
     return (
       <>
         <Container>
@@ -86,36 +98,20 @@ class ContactList extends React.Component {
               <ContactForm formSubmit={this.handleformSubmit} />
             ) : null}
           </Row>
-          <Row>
-            {' '}
-            {showUpdateForm ? (
-              <UpdateContact
-                updateContact={updateContact}
-                user={users[editContactId - 1]}
-                hideForm={this.hideUpdateForm}
-              />
-            ) : null}
+
+          <Row xs={1} md={3} className="g-3">
+            {users.map((user, index) => (
+              <CardGroup>
+                <Contact
+                  user={user}
+                  key={index}
+                  deleteContact={this.handleDeleteContact}
+                  editContact={this.handleUpdateContact}
+                />
+              </CardGroup>
+            ))}
           </Row>
         </Container>
-        <Table striped bordered responsive hover variant="dark">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Full Name</th>
-              <th>Email</th>
-              <th>Phone Number</th>
-              <th>City</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          {users.map((user, index) => (
-            <Contact
-              user={user}
-              key={index}
-              toggleForm={this.handleShowUpdateForm}
-            />
-          ))}
-        </Table>
       </>
     );
   }
