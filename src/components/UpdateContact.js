@@ -59,6 +59,13 @@ class UpdateContact extends Component {
         <h2 className="text-center text-success">Update contact Details</h2>{' '}
         <Form className="border border-secondary p-4 border-5 rounded">
           {/* email username  phone */}
+          <Button
+            variant="danger"
+            className="my-3"
+            onClick={this.props.hideForm}
+          >
+            Close Form
+          </Button>
           <Row className="mb-3">
             {' '}
             <Form.Group as={Col} controlId="formGridName">
@@ -92,7 +99,6 @@ class UpdateContact extends Component {
               />
             </Form.Group>
           </Row>
-
           <Row className="mb-4">
             <Form.Group as={Col} controlId="formGridCity">
               <Form.Label>City</Form.Label>
@@ -105,7 +111,6 @@ class UpdateContact extends Component {
               />
             </Form.Group>
           </Row>
-
           <Button variant="primary" type="submit" onClick={this.onFormSubmit}>
             UpdateContact
           </Button>

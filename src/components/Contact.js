@@ -8,7 +8,7 @@ class Contact extends React.Component {
     //show update contact form
     toggleForm(true, userId);
     // move screen to the top
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 150);
   };
   render() {
     const { user } = this.props;
