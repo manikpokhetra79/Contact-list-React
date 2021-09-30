@@ -5,7 +5,7 @@ import { userApi } from '../helpers/Urls';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import Header from '../components/Header';
-class App extends React.Component {
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,6 +22,8 @@ class App extends React.Component {
         });
       });
   }
+
+  //function for handling new user/contact
   handleformSubmit = (user) => {
     const { users } = this.state;
     // correct the id of user
@@ -30,6 +32,14 @@ class App extends React.Component {
     users.push(user);
     console.log(this.state.users);
   };
+
+  //handle user/contact update
+  handleUserUpdate = (user) => {
+    console.log('Update user here');
+    console.log(user);
+    // const { users } = this.state;
+  };
+
   render() {
     const { users } = this.state;
     return (
@@ -39,16 +49,16 @@ class App extends React.Component {
           <Header />
           <Switch>
             <Route exact path="/">
-              <h1>Hi, this is a contact manager app</h1>
-            </Route>
-            <Route path="/contacts">
-              <ContactList users={users} />
-            </Route>
-            <Route path="/add-contacts">
-              <Container className="text-info">
-                <h1>Contact Manager</h1>
+              <Container>
+                <h1 className="text-center text-secondary">Contact Manager</h1>
               </Container>
               <ContactForm formSubmit={this.handleformSubmit} />
+            </Route>
+            <Route path="/contacts">
+              <ContactList
+                users={users}
+                updateContact={() => this.handleUserUpdate}
+              />
             </Route>
           </Switch>
         </div>

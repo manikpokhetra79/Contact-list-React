@@ -21,13 +21,6 @@ class Header extends Component {
                 >
                   Contact List
                 </Link>
-
-                <Link
-                  to="/add-contacts"
-                  className="text-light text-decoration-none px-2"
-                >
-                  New Contact
-                </Link>
               </Nav>
             </Navbar.Collapse>
           </Container>

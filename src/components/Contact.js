@@ -1,18 +1,33 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
+
 class Contact extends React.Component {
+  // handle contact edit form
+  handleContactEdit = (userId) => {
+    const { toggleForm } = this.props;
+    //show update contact form
+    toggleForm(true, userId);
+    // move screen to the top
+    window.scrollTo(0, 0);
+  };
   render() {
-    const user = this.props.user;
+    const { user } = this.props;
+    const { id, name, email, phone, address } = user;
     return (
       <tbody>
         <tr>
-          <td>{user.id}</td>
-          <td>{user.name}</td>
-          <td>{user.email}</td>
-          <td>{user.phone}</td>
-          <td>{user.address.city}</td>
+          <td>{id}</td>
+          <td>{name}</td>
+          <td>{email}</td>
+          <td>{phone}</td>
+          <td>{address.city}</td>
           <td>
-            <Button variant="success">Edit</Button>{' '}
+            <Button
+              variant="success"
+              onClick={() => this.handleContactEdit(id)}
+            >
+              Edit
+            </Button>{' '}
             <Button variant="danger">Delete</Button>
           </td>
         </tr>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Button, Row, Col, Container } from 'react-bootstrap';
-class ContactForm extends Component {
+class UpdateContact extends Component {
   constructor(props) {
     super(props);
 
@@ -30,8 +30,9 @@ class ContactForm extends Component {
   onFormSubmit = (e) => {
     e.preventDefault();
     const { name, email, phone, address } = this.state;
-    fetch('https://jsonplaceholder.typicode.com/users', {
-      method: 'POST',
+
+    fetch('https://jsonplaceholder.typicode.com/posts/1', {
+      method: 'PUT',
       body: JSON.stringify({
         name,
         email,
@@ -45,14 +46,17 @@ class ContactForm extends Component {
       .then((response) => response.json())
       .then((user) => {
         console.log(user);
-        //callback function for app component to add new user to the users array for rendering new data
-        this.props.formSubmit(user);
+        // call update contact function
+        this.props.UpdateContact(user);
       });
   };
   render() {
+    console.log(this.state);
+    const { email, name, phone, address } = this.props.user;
+    console.log(this.props);
     return (
-      <Container>
-        {' '}
+      <Container className="m-3">
+        <h2 className="text-center text-success">Update contact Details</h2>{' '}
         <Form className="border border-secondary p-4 border-5 rounded">
           {/* email username  phone */}
           <Row className="mb-3">
@@ -61,7 +65,7 @@ class ContactForm extends Component {
               <Form.Label>Full Name</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter Full Name"
+                placeholder={name}
                 onChange={(e) => this.handleInputChange('name', e.target.value)}
               />
             </Form.Group>
@@ -69,7 +73,7 @@ class ContactForm extends Component {
               <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
-                placeholder="Enter email"
+                placeholder={email}
                 onChange={(e) =>
                   this.handleInputChange('email', e.target.value)
                 }
@@ -80,8 +84,8 @@ class ContactForm extends Component {
             <Form.Group as={Col} controlId="formGridPhonenumber">
               <Form.Label>Phone Number</Form.Label>
               <Form.Control
-                type="number"
-                placeholder="Enter Phone Number"
+                type="text"
+                placeholder={phone}
                 onChange={(e) =>
                   this.handleInputChange('phone', e.target.value)
                 }
@@ -89,13 +93,12 @@ class ContactForm extends Component {
             </Form.Group>
           </Row>
 
-          {/* email username  phone */}
           <Row className="mb-4">
             <Form.Group as={Col} controlId="formGridCity">
               <Form.Label>City</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter City"
+                placeholder={address.city}
                 onChange={(e) =>
                   this.handleAddressInputChange('city', e.target.value)
                 }
@@ -104,7 +107,7 @@ class ContactForm extends Component {
           </Row>
 
           <Button variant="primary" type="submit" onClick={this.onFormSubmit}>
-            Add Contact
+            UpdateContact
           </Button>
         </Form>
       </Container>
@@ -112,4 +115,4 @@ class ContactForm extends Component {
   }
 }
 
-export default ContactForm;
+export default UpdateContact;
