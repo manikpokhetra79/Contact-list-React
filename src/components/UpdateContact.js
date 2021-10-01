@@ -41,7 +41,7 @@ class UpdateContact extends Component {
   onFormSubmit = (e) => {
     e.preventDefault();
     const userId = this.props.user.id;
-    let url = `https://jsonplaceholder.typicode.com/users/${userId}`;
+    let url = `https://jsonplaceholder.typicode.com/users/1`;
     const { name, email, phone, address } = this.state;
     if (name && email && phone && address.city) {
       fetch(url, {
@@ -51,6 +51,7 @@ class UpdateContact extends Component {
           email,
           phone,
           address,
+          userId,
         }),
         headers: {
           'Content-type': 'application/json; charset=UTF-8',
