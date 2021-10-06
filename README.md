@@ -1,7 +1,7 @@
 # Description
 This project was bootstrapped with [Create React App]
 This is a small contact app to manage contacts.
-The contact data is not persistent, once the web app loads, the contact data gets refreshed to initial Data.
+The contact data is not persistent, once the web app page refreshes, the contact data gets refreshed to initial Data.
 
 ## Features
 - Add a contact
