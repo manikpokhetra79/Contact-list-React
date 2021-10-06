@@ -110,7 +110,7 @@ class ContactList extends React.Component {
             ) : null}
           </Row>
 
-          <Row xs={1} md={1} lg={2} className="g-3 m-auto">
+          <Row className="d-flex justify-content-center">
             {users.map((user) => (
               <Col>
                 <CardGroup>

@@ -1,9 +1,16 @@
 .App {
-  margin: 0;
-  background-color: #f0f2f5;
+  background-color: #ffffff;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+/* card css */
+@media (min-width: 478px) {
+  .card-group {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+  }
 }
